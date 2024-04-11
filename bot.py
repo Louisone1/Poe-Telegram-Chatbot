@@ -19,8 +19,12 @@ ADMIN_ID = int(config.get('telegram', 'admin_id'))
 WHITELIST_FILE = config.get('telegram', 'whitelist_file')
 
 bot_names = {
-    'gpt4': 'GPT-4',
-    'claude3': 'Claude-3-Opus'
+    'gpt4': 'GPT-4-128k',
+    'claude3': 'Claude-3-Opus-200k',
+    'gemini1.5': 'Gemini-1.5-Pro-1M',
+    'search': 'Web-Search',
+    'sd': 'StableDiffusionXL',
+    'dalle3': 'DALL-E-3'
 }
 default_bot_name = bot_names['claude3']
 user_tasks = {}
@@ -129,6 +133,26 @@ async def claude3(update: Update, context):
     bot_name = bot_names['claude3']
     await switch_model(user_id, bot_name, update, context)
 
+async def gemini1.5(update: Update, context):
+    user_id = update.effective_user.id
+    bot_name = bot_names['gemini1.5']
+    await switch_model(user_id, bot_name, update, context)
+
+async def search(update: Update, context):
+    user_id = update.effective_user.id
+    bot_name = bot_names['search']
+    await switch_model(user_id, bot_name, update, context)
+
+async def sd(update: Update, context):
+    user_id = update.effective_user.id
+    bot_name = bot_names['sd']
+    await switch_model(user_id, bot_name, update, context)
+
+async def dalle3(update: Update, context):
+    user_id = update.effective_user.id
+    bot_name = bot_names['dalle3']
+    await switch_model(user_id, bot_name, update, context)
+    
 async def switch_model(user_id, bot_name, update, context):
     if user_id not in user_context or user_context[user_id]['bot_name'] != bot_name:
         user_context[user_id] = {'messages': [], 'bot_name': bot_name}
@@ -194,7 +218,19 @@ def main():
 
     claude3_handler = CommandHandler('claude3', claude3)
     application.add_handler(claude3_handler)
-
+    
+    gemini1.5_handler = CommandHandler('gemini1.5', gemini1.5)
+    application.add_handler(gemini1.5_handler)
+     
+    search_handler = CommandHandler('claude3', search)
+    application.add_handler(search_handler)
+      
+    sd_handler = CommandHandler('sd', sd)
+    application.add_handler(sd_handler)
+         
+    dalle3_handler = CommandHandler('dalle3', dalle3)
+    application.add_handler(dalle3_handler)
+  
     add_whitelist_handler = CommandHandler('add', add_whitelist)
     application.add_handler(add_whitelist_handler)
 
