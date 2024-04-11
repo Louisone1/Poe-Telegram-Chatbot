@@ -22,8 +22,6 @@ bot_names = {
     'gpt4': 'GPT-4-128k',
     'claude3': 'Claude-3-Opus-200k',
     'gemini': 'Gemini-1.5-Pro-1M',
-    'search': 'Web-Search',
-    'sd': 'StableDiffusionXL',
     'dalle3': 'DALL-E-3'
 }
 default_bot_name = bot_names['claude3']
@@ -221,12 +219,6 @@ def main():
     
     gemini_handler = CommandHandler('gemini', gemini)
     application.add_handler(gemini_handler)
-     
-    search_handler = CommandHandler('search', search)
-    application.add_handler(search_handler)
-      
-    sd_handler = CommandHandler('sd', sd)
-    application.add_handler(sd_handler)
          
     dalle3_handler = CommandHandler('dalle3', dalle3)
     application.add_handler(dalle3_handler)
