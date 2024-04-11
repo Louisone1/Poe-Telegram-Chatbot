@@ -21,7 +21,7 @@ WHITELIST_FILE = config.get('telegram', 'whitelist_file')
 bot_names = {
     'gpt4': 'GPT-4-128k',
     'claude3': 'Claude-3-Opus-200k',
-    'gemini1.5': 'Gemini-1.5-Pro-1M',
+    'gemini': 'Gemini-1.5-Pro-1M',
     'search': 'Web-Search',
     'sd': 'StableDiffusionXL',
     'dalle3': 'DALL-E-3'
@@ -133,9 +133,9 @@ async def claude3(update: Update, context):
     bot_name = bot_names['claude3']
     await switch_model(user_id, bot_name, update, context)
 
-async def gemini1.5(update: Update, context):
+async def gemini(update: Update, context):
     user_id = update.effective_user.id
-    bot_name = bot_names['gemini1.5']
+    bot_name = bot_names['gemini']
     await switch_model(user_id, bot_name, update, context)
 
 async def search(update: Update, context):
@@ -219,10 +219,10 @@ def main():
     claude3_handler = CommandHandler('claude3', claude3)
     application.add_handler(claude3_handler)
     
-    gemini1.5_handler = CommandHandler('gemini1.5', gemini1.5)
-    application.add_handler(gemini1.5_handler)
+    gemini_handler = CommandHandler('gemini', gemini)
+    application.add_handler(gemini_handler)
      
-    search_handler = CommandHandler('claude3', search)
+    search_handler = CommandHandler('search', search)
     application.add_handler(search_handler)
       
     sd_handler = CommandHandler('sd', sd)
