@@ -22,8 +22,7 @@ bot_names = {
     'gpt4': 'GPT-4-128k',
     'claude3': 'Claude-3-Opus-200k',
     'gemini': 'Gemini-1.5-Pro-1M',
-    'dalle3': 'DALL-E-3',
-    'your_bot_name': 'Your_Model_Name'
+    'dalle3': 'DALL-E-3'
 }
 
 default_bot_name = bot_names['claude3']
@@ -113,7 +112,7 @@ async def send_response_message(context, chat_id, response_text, response_messag
     return response_message
 
 async def start(update: Update, context):
-    await context.bot.send_message(chat_id=update.effective_chat.id, text="欢迎使用Poe AI助手! 请输入您的问题。[Write by Claude-3-Opus-200k]")
+    await context.bot.send_message(chat_id=update.effective_chat.id, text="欢迎使用Poe! ")
 
 async def new_conversation(update: Update, context):
     user_id = update.effective_user.id
@@ -121,7 +120,7 @@ async def new_conversation(update: Update, context):
     if user_id in user_context:
         bot_name = user_context[user_id]['bot_name']
         user_context[user_id] = {'messages': [], 'bot_name': bot_name}
-    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"====== 新的对话开始（{bot_name}） ======")
+    await context.bot.send_message(chat_id=update.effective_chat.id, text=f"==== 新的对话开始（{bot_name}） ====")
 
 async def gpt4(update: Update, context):
     user_id = update.effective_user.id
@@ -141,16 +140,6 @@ async def gemini(update: Update, context):
 async def dalle3(update: Update, context):
     user_id = update.effective_user.id
     bot_name = bot_names['dalle3']
-    await switch_model(user_id, bot_name, update, context)
-
-async def switch_to_custom_bot(update: Update, context):
-    user_id = update.effective_user.id
-    if not context.args:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text="请提供 bot 名称。")
-        return
-
-    bot_name = context.args[0]
-
     await switch_model(user_id, bot_name, update, context)
 
 async def switch_model(user_id, bot_name, update, context):
@@ -224,9 +213,6 @@ def main():
          
     dalle3_handler = CommandHandler('dalle3', dalle3)
     application.add_handler(dalle3_handler)
-
-    custom_bot_handler = CommandHandler('switch', switch_to_custom_bot)
-    application.add_handler(custom_bot_handler)
 
     add_whitelist_handler = CommandHandler('add', add_whitelist)
     application.add_handler(add_whitelist_handler)
