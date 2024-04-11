@@ -22,8 +22,10 @@ bot_names = {
     'gpt4': 'GPT-4-128k',
     'claude3': 'Claude-3-Opus-200k',
     'gemini': 'Gemini-1.5-Pro-1M',
-    'dalle3': 'DALL-E-3'
+    'dalle3': 'DALL-E-3',
+    'your_bot_name': 'Your_Model_Name'
 }
+
 default_bot_name = bot_names['claude3']
 user_tasks = {}
 user_context = {}
@@ -136,16 +138,6 @@ async def gemini(update: Update, context):
     bot_name = bot_names['gemini']
     await switch_model(user_id, bot_name, update, context)
 
-async def search(update: Update, context):
-    user_id = update.effective_user.id
-    bot_name = bot_names['search']
-    await switch_model(user_id, bot_name, update, context)
-
-async def sd(update: Update, context):
-    user_id = update.effective_user.id
-    bot_name = bot_names['sd']
-    await switch_model(user_id, bot_name, update, context)
-
 async def dalle3(update: Update, context):
     user_id = update.effective_user.id
     bot_name = bot_names['dalle3']
@@ -158,6 +150,19 @@ async def switch_model(user_id, bot_name, update, context):
         await new_conversation(update, context)
     else:
         await context.bot.send_message(chat_id=update.effective_chat.id, text=f"当前已经是 {bot_name} 模型。")
+
+async def switch_to_custom_bot(update: Update, context):
+    user_id = update.effective_user.id
+    if not context.args:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text="请提供 bot 名称。")
+        return
+
+    bot_name = context.args[0]
+    if bot_name not in bot_names:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"未找到名为 {bot_name} 的 bot。")
+        return
+
+    await switch_model(user_id, bot_name, update, context)
 
 async def add_whitelist(update: Update, context):
     user_id = update.effective_user.id
@@ -222,7 +227,10 @@ def main():
          
     dalle3_handler = CommandHandler('dalle3', dalle3)
     application.add_handler(dalle3_handler)
-  
+
+    custom_bot_handler = CommandHandler('switch', switch_to_custom_bot)
+    application.add_handler(custom_bot_handler)
+
     add_whitelist_handler = CommandHandler('add', add_whitelist)
     application.add_handler(add_whitelist_handler)
 
