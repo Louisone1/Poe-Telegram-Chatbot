@@ -143,14 +143,6 @@ async def dalle3(update: Update, context):
     bot_name = bot_names['dalle3']
     await switch_model(user_id, bot_name, update, context)
     
-async def switch_model(user_id, bot_name, update, context):
-    if user_id not in user_context or user_context[user_id]['bot_name'] != bot_name:
-        user_context[user_id] = {'messages': [], 'bot_name': bot_name}
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"已切换到 {bot_name} 模型,并清空上下文。")
-        await new_conversation(update, context)
-    else:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"当前已经是 {bot_name} 模型。")
-
 async def switch_to_custom_bot(update: Update, context):
     user_id = update.effective_user.id
     if not context.args:
@@ -158,11 +150,18 @@ async def switch_to_custom_bot(update: Update, context):
         return
 
     bot_name = context.args[0]
-    if bot_name not in bot_names:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"未找到名为 {bot_name} 的 bot。")
-        return
 
     await switch_model(user_id, bot_name, update, context)
+    
+    async def switch_model(user_id, bot_name, update, context):
+    if user_id not in user_context or user_context[user_id]['bot_name'] != bot_name:
+        user_context[user_id] = {'messages': [], 'bot_name': bot_name}
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"已切换到 {bot_name} 模型,并清空上下文。")
+        await new_conversation(update, context)
+    else:
+        await context.bot.send_message(chat_id=update.effective_chat.id, text=f"当前已经是 {bot_name} 模型。")
+
+
 
 async def add_whitelist(update: Update, context):
     user_id = update.effective_user.id
