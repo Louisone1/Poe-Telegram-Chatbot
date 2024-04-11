@@ -22,10 +22,8 @@ bot_names = {
     'gpt4': 'GPT-4-128k',
     'claude3': 'Claude-3-Opus-200k',
     'gemini': 'Gemini-1.5-Pro-1M',
-    'dalle3': 'DALL-E-3',
-    'your_bot_name': 'Your_Model_Name'
+    'dalle3': 'DALL-E-3'
 }
-
 default_bot_name = bot_names['claude3']
 user_tasks = {}
 user_context = {}
@@ -83,11 +81,7 @@ async def handle_message(update: Update, context):
 
     # 检查用户是否已有对应的任务,如果没有则创建一个新任务
     if user_id not in user_tasks or user_tasks[user_id].done():
-        try:
-            user_tasks[user_id] = asyncio.create_task(handle_user_request(user_id, update, context))
-        except Exception as e:
-            logging.error(f"处理用户 {user_id} 的请求时出错: {e}")
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="处理您的请求时出现了一些问题，请稍后再试。")
+        user_tasks[user_id] = asyncio.create_task(handle_user_request(user_id, update, context))
 
 async def handle_user_request(user_id, update, context):
     if user_id in user_context and user_context[user_id]['messages']:
@@ -135,16 +129,6 @@ async def gpt4(update: Update, context):
 async def claude3(update: Update, context):
     user_id = update.effective_user.id
     bot_name = bot_names['claude3']
-    await switch_model(user_id, bot_name, update, context)
-
-async def gemini(update: Update, context):
-    user_id = update.effective_user.id
-    bot_name = bot_names['gemini']
-    await switch_model(user_id, bot_name, update, context)
-
-async def dalle3(update: Update, context):
-    user_id = update.effective_user.id
-    bot_name = bot_names['dalle3']
     await switch_model(user_id, bot_name, update, context)
 
 async def switch_model(user_id, bot_name, update, context):
