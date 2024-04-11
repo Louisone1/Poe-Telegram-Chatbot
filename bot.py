@@ -131,6 +131,16 @@ async def claude3(update: Update, context):
     bot_name = bot_names['claude3']
     await switch_model(user_id, bot_name, update, context)
 
+async def gemini(update: Update, context):
+    user_id = update.effective_user.id
+    bot_name = bot_names['gemini']
+    await switch_model(user_id, bot_name, update, context)
+
+async def dalle3(update: Update, context):
+    user_id = update.effective_user.id
+    bot_name = bot_names['dalle3']
+    await switch_model(user_id, bot_name, update, context)
+
 async def switch_model(user_id, bot_name, update, context):
     if user_id not in user_context or user_context[user_id]['bot_name'] != bot_name:
         user_context[user_id] = {'messages': [], 'bot_name': bot_name}
