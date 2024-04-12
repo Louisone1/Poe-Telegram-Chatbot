@@ -19,8 +19,8 @@ ADMIN_ID = int(config.get('telegram', 'admin_id'))
 WHITELIST_FILE = config.get('telegram', 'whitelist_file')
 
 bot_names = {
-    'gpt4': 'GPT-4-128k',
-    'claude3': 'Claude-3-Opus-200k',
+    'gpt4': 'GPT-4',
+    'claude3': 'Claude-3-Opus',
     'gemini': 'Gemini-1.5-Pro-1M',
     'dalle3': 'DALL-E-3'
 }
