@@ -8,7 +8,6 @@ from telegram.ext import Application, CommandHandler, MessageHandler, filters
 from telegram.constants import ChatAction
 from telegram.error import BadRequest
 
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 # 读取配置文件
 config = ConfigParser()
 config.read('config.ini')
