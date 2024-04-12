@@ -15,7 +15,7 @@ config.read('config.ini')
 # 获取配置项
 TELEGRAM_BOT_TOKEN = config.get('telegram', 'bot_token')
 POE_API_KEY = config.get('poe', 'api_key')
-ADMIN_ID = int(config.get('telegram', 'admin_id'))
+ADMIN_ID = config.get('telegram', 'admin_id')
 WHITELIST_FILE = config.get('telegram', 'whitelist_file')
 
 bot_names = {
