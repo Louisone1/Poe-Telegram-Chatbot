@@ -1,5 +1,4 @@
 import os
-import uvloop
 import asyncio
 import logging
 import fastapi_poe as fp
