@@ -206,11 +206,11 @@ def main():
 
     claude3_handler = CommandHandler('claude3', claude3)
     application.add_handler(claude3_handler)
-    
-    gemini_handler = CommandHandler('gemini', gemini)
+
+    gemini_handler = CommandHandler('gemini', gpt4)
     application.add_handler(gemini_handler)
-         
-    dalle3_handler = CommandHandler('dalle3', dalle3)
+
+    dalle3_handler = CommandHandler('dalle3', gpt4)
     application.add_handler(dalle3_handler)
 
     add_whitelist_handler = CommandHandler('add', add_whitelist)
